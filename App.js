@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider, View, Box, HStack, IconButton, MaterialIcons, HamburgerIcon, Text, SearchIcon, FlatList, Avatar, VStack, Spacer} from 'native-base';
-import { StyleSheet, TextInput, Dimensions} from 'react-native';
+import { StyleSheet, TextInput, Dimensions, TouchableOpacity} from 'react-native';
+import { Feather } from '@expo/vector-icons';
 
 const windowWidth = Dimensions.get('window').width;
 
@@ -150,7 +151,13 @@ function MessageView() {
           keyExtractor={item => item.id}
         />
       </Box>
-      <TextInput multiline={true} style={styles.inputMessage}/>
+      <View style={styles.inputMessage}>
+        <TextInput multiline={true} style={styles.textInput} />
+        <TouchableOpacity style={styles.sendButton} >
+          <Feather name="send" size={24} color="black" />
+        </TouchableOpacity>
+        
+      </View>
     </View>
   )
 }
@@ -195,7 +202,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     maxHeight: 100,
-    
+    flexDirection: 'row'
+  },
+  textInput: {
+    flex: 1
+  },
+  sendButton: {
+    height: 30,
+    width: 30,
+    alignSelf: 'center',
+    borderRadius: 20
   },
   fieldMessage: {
     flex: 1,
