@@ -3,11 +3,10 @@ import { StyleSheet } from "react-native";
 import { Box, HStack, Spacer, Text, VStack } from "native-base";
 
 class Message extends Component {
-  constructor(id, fullName, timeStamp, recentText, me, props) {
+  constructor(id, timeStamp, recentText, me, props) {
     super(props);
 
     this.id = id;
-    this.fullName = fullName;
     this.timeStamp = timeStamp;
     this.text = recentText;
     this.me = me;
