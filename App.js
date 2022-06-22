@@ -22,35 +22,18 @@ import { Component } from "react";
 import nextId from "react-id-generator";
 import Moment from 'moment';
 
-import Message from "./src/model/Message";
+import Message from "../model/Message";
 
 const windowWidth = Dimensions.get("window").width;
-
-var teste = new Message(
-  "3ac68afc-c605-48d3-a4f8-fbd91aa97f63",
-  "Sujitha Mathur",
-  "11:11 PM",
-  "Cheer up, there!",
-  false
-);
-
-const mess = [
-  new Message(
-    "bd7acbea-c1b1-46c2-aed5-3ad53abb28ba",
-    "Aafreen Khan",
-    "12:47 PM",
-    "Good Day!",
-    true
-  ),
-];
 
 class Chat extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      messages: mess,
+      messages: [],
       text: "",
+      userTime: true,
     };
   }
 
@@ -62,15 +45,15 @@ class Chat extends Component {
 
   handleSendClick = () => {
     let m = this.state.messages;
+    let text = this.state.text;
 
     Moment.locale('br');
     let time = new Date();
 
     let newMessage = new Message(
       nextId(),
-      "Eu",
       Moment(time).format('HH:mm'),
-      this.state.text,
+      text,
       true
     );
 
@@ -78,7 +61,8 @@ class Chat extends Component {
 
     this.setState({
       messages: m,
-      text: ""
+      text: "",
+      userTime: false
     });
   };
 
@@ -148,10 +132,12 @@ class Chat extends Component {
                 style={styles.textInput}
                 value={this.state.text}
                 onChangeText={this.handleChangeText}
+                editable={this.state.userTime}
               />
               <TouchableOpacity
                 style={styles.sendButton}
                 onPress={this.handleSendClick}
+                disabled={this.state.text == ""}
               >
                 <Feather name="send" size={24} color="black" />
               </TouchableOpacity>
