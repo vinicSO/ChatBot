@@ -18,35 +18,24 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import { Component } from "react";
 import nextId from "react-id-generator";
 import Moment from 'moment';
 
 import Message from "../model/Message";
+import { useState } from "react";
 
 const windowWidth = Dimensions.get("window").width;
 
-class Chat extends Component {
-  constructor(props) {
-    super(props);
+function ChatView() {
 
-    this.state = {
-      messages: [],
-      text: "",
-      userTime: true,
-      userFunction: "iniciar"
-    };
-  }
+  const [textMessage, setTextMessage] = useState("");
+  const [userTurn, setUseTurn] = useState(true);
 
-  handleChangeText = (text) => {
-    this.setState({
-      text: text,
-    });
-  };
+  const [messages, setMessages] = useState([]);
 
   handleSendClick = () => {
-    let m = this.state.messages;
-    let text = this.state.text;
+    let text = textMessage;
+    let messagesAux = messages;
 
     Moment.locale('br');
     let time = new Date();
@@ -58,96 +47,92 @@ class Chat extends Component {
       true
     );
 
-    m.unshift(newMessage);
+    messagesAux.unshift(newMessage);
 
-    this.setState({
-      messages: m,
-      text: "",
-      userTime: false
-    });
+    setTextMessage("");
+    setUseTurn(!userTurn);
+    setMessages(messagesAux);
   };
 
-  render() {
-    return (
-      <NativeBaseProvider>
-        <View style={styles.container}>
-          <StatusBar
-            style="light"
-            translucent={false}
-            backgroundColor="#6200ee"
-          />
+  return (
+    <NativeBaseProvider>
+      <View style={styles.container}>
+        <StatusBar
+          style="light"
+          translucent={false}
+          backgroundColor="#6200ee"
+        />
 
-          <View style={styles.bar}>
-            <Box safeAreaTop bg="#6200ee" />
-            <HStack
-              bg="#6200ee"
-              px="1"
-              py="2"
-              justifyContent="space-between"
-              alignItems="center"
-              w="100%"
-            >
-              <HStack alignItems="center">
-                <IconButton
-                  icon={
-                    <HamburgerIcon
-                      as={MaterialIcons}
-                      name="menu"
-                      size="sm"
-                      color="white"
-                    />
-                  }
-                />
-                <Text color="white" fontSize="20" fontWeight="bold">
-                  My Chat
-                </Text>
-              </HStack>
-              <HStack>
-                <IconButton
-                  icon={
-                    <SearchIcon
-                      as={MaterialIcons}
-                      name="search"
-                      size="sm"
-                      color="white"
-                    />
-                  }
-                />
-              </HStack>
+        <View style={styles.bar}>
+          <Box safeAreaTop bg="#6200ee" />
+          <HStack
+            bg="#6200ee"
+            px="1"
+            py="2"
+            justifyContent="space-between"
+            alignItems="center"
+            w="100%"
+          >
+            <HStack alignItems="center">
+              <IconButton
+                icon={
+                  <HamburgerIcon
+                    as={MaterialIcons}
+                    name="menu"
+                    size="sm"
+                    color="white"
+                  />
+                }
+              />
+              <Text color="white" fontSize="20" fontWeight="bold">
+                My Chat
+              </Text>
             </HStack>
+            <HStack>
+              <IconButton
+                icon={
+                  <SearchIcon
+                    as={MaterialIcons}
+                    name="search"
+                    size="sm"
+                    color="white"
+                  />
+                }
+              />
+            </HStack>
+          </HStack>
+        </View>
+
+        <View style={styles.fieldMessage}>
+          <View style={styles.listMessages}>
+            <FlatList
+              inverted={true}
+              data={messages}
+              renderItem={({ item }) => item.render()}
+              keyExtractor={(item) => item.id}
+            />
           </View>
 
-          <View style={styles.fieldMessage}>
-            <View style={styles.listMessages}>
-              <FlatList
-                inverted={true}
-                data={this.state.messages}
-                renderItem={({ item }) => item.render()}
-                keyExtractor={(item) => item.id}
-              />
-            </View>
-
-            <View style={styles.inputMessage}>
-              <TextInput
-                multiline={true}
-                style={styles.textInput}
-                value={this.state.text}
-                onChangeText={this.handleChangeText}
-                editable={this.state.userTime}
-              />
-              <TouchableOpacity
-                style={styles.sendButton}
-                onPress={this.handleSendClick}
-                disabled={this.state.text == ""}
-              >
-                <Feather name="send" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
+          <View style={styles.inputMessage}>
+            <TextInput
+              multiline={true}
+              style={styles.textInput}
+              value={textMessage}
+              onChangeText={(text) => {setTextMessage(text)}}
+              editable={userTurn}
+            />
+            <TouchableOpacity
+              style={styles.sendButton}
+              onPress={handleSendClick}
+              disabled={textMessage == ""}
+            >
+              <Feather name="send" size={24} color="black" />
+            </TouchableOpacity>
           </View>
         </View>
-      </NativeBaseProvider>
-    );
-  }
+      </View>
+    </NativeBaseProvider>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -197,4 +182,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Chat;
+export default ChatView;
