@@ -9,7 +9,6 @@ import {
   HamburgerIcon,
   Text,
   SearchIcon,
-  FlatList,
 } from "native-base";
 import {
   StyleSheet,
@@ -18,34 +17,25 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
-import nextId from "react-id-generator";
-import Moment from 'moment';
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import Message from "../model/Message";
-import { useState } from "react";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import MessageHistory from "../components/MessageHistory";
 
 const windowWidth = Dimensions.get("window").width;
-const selectAllMessages = (state) => state.messages;
 
 function ChatView() {
 
   const [textMessage, setTextMessage] = useState("");
   const [userTurn, setUseTurn] = useState(true);
 
-  const messages = useSelector(selectAllMessages, shallowEqual);
-
   const dispatch = useDispatch();
 
   handleSendClick = () => {
     let text = textMessage;
 
-    Moment.locale('br');
-    let time = new Date();
-
     let newMessage = new Message(
-      nextId(),
-      Moment(time).format('HH:mm'),
       text,
       true
     );
@@ -106,14 +96,8 @@ function ChatView() {
         </View>
 
         <View style={styles.fieldMessage}>
-          <View style={styles.listMessages}>
-            <FlatList
-              inverted={true}
-              data={messages}
-              renderItem={({ item }) => item.render()}
-              keyExtractor={(item) => item.id}
-            />
-          </View>
+
+          <MessageHistory />
 
           <View style={styles.inputMessage}>
             <TextInput
@@ -177,10 +161,6 @@ const styles = StyleSheet.create({
   },
   bar: {
     alignSelf: "flex-start",
-  },
-  listMessages: {
-    flex: 1,
-    marginBottom: 5,
   },
 });
 

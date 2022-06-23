@@ -1,13 +1,18 @@
 import { Component } from "react";
 import { StyleSheet } from "react-native";
 import { Box, HStack, Spacer, Text, VStack } from "native-base";
+import nextId from "react-id-generator";
+import Moment from "moment";
 
 class Message extends Component {
-  constructor(id, timeStamp, recentText, me, props) {
+  constructor(recentText, me, props) {
     super(props);
 
-    this.id = id;
-    this.timeStamp = timeStamp;
+    Moment.locale('br');
+    time = new Date();
+
+    this.id = nextId();
+    this.timeStamp = Moment(time).format('HH:mm');
     this.text = recentText;
     this.me = me;
     this.config = me
