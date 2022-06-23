@@ -23,19 +23,22 @@ import Moment from 'moment';
 
 import Message from "../model/Message";
 import { useState } from "react";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 
 const windowWidth = Dimensions.get("window").width;
+const selectAllMessages = (state) => state.messages;
 
 function ChatView() {
 
   const [textMessage, setTextMessage] = useState("");
   const [userTurn, setUseTurn] = useState(true);
 
-  const [messages, setMessages] = useState([]);
+  const messages = useSelector(selectAllMessages, shallowEqual);
+
+  const dispatch = useDispatch();
 
   handleSendClick = () => {
     let text = textMessage;
-    let messagesAux = messages;
 
     Moment.locale('br');
     let time = new Date();
@@ -47,11 +50,10 @@ function ChatView() {
       true
     );
 
-    messagesAux.unshift(newMessage);
-
     setTextMessage("");
     setUseTurn(!userTurn);
-    setMessages(messagesAux);
+
+    dispatch({ type: 'messages/addMessage', payload: newMessage});
   };
 
   return (
