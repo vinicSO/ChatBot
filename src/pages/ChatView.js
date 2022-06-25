@@ -19,6 +19,7 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import nextId from "react-id-generator";
 
 import Message from "../model/Message";
 import MessageHistory from "../components/MessageHistory";
@@ -33,12 +34,14 @@ function ChatView() {
   const dispatch = useDispatch();
 
   handleSendClick = () => {
-    let text = textMessage;
+    let content = [
+      {type: "text", text: textMessage}
+    ];
 
-    let newMessage = new Message(
-      text,
-      true
-    );
+    let newMessage = {
+      key: nextId(),
+      message: <Message me={true} content={content}/>
+    };
 
     setTextMessage("");
     setUseTurn(!userTurn);

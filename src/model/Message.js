@@ -1,11 +1,12 @@
 import { Component } from "react";
 import { StyleSheet } from "react-native";
-import { Box, HStack, Spacer, Text, VStack } from "native-base";
+import { Box, HStack, Spacer, View, VStack, Text} from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
+import { ButtonMessage, handleMessageType, TextMessage } from "../components/MessageType";
 
 class Message extends Component {
-  constructor(recentText, me, props) {
+  constructor(props) {
     super(props);
 
     Moment.locale('br');
@@ -13,9 +14,9 @@ class Message extends Component {
 
     this.id = nextId();
     this.timeStamp = Moment(time).format('HH:mm');
-    this.text = recentText;
-    this.me = me;
-    this.config = me
+    this.content = props.content;
+    this.me = props.me;
+    this.config = props.me
       ? { alignSelf: "flex-end", backgroundColor: "#4974b8" }
       : { alignSelf: "flex-start", backgroundColor: "#8449d6" };
   }
@@ -41,7 +42,7 @@ class Message extends Component {
             >
               {this.timeStamp}
             </Text>
-            <Text color="white">{this.text}</Text>
+            {handleMessageType(this.content, this.props)}
           </VStack>
         </HStack>
       </Box>
@@ -55,9 +56,9 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   message: {
-    borderRadius: 10,
-    padding: 10,
-  },
+		borderRadius: 10,
+		padding: 10,
+	},
 });
 
 export default Message;
