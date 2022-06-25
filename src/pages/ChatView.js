@@ -18,7 +18,7 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import nextId from "react-id-generator";
 
 import Message from "../model/Message";
@@ -26,10 +26,13 @@ import MessageHistory from "../components/MessageHistory";
 
 const windowWidth = Dimensions.get("window").width;
 
+const selectUser = (state) => state.user;
+
 function ChatView() {
 
   const [textMessage, setTextMessage] = useState("");
-  const [userTurn, setUseTurn] = useState(true);
+
+  const {turn:userTurn} = useSelector(selectUser, shallowEqual);
 
   const dispatch = useDispatch();
 
@@ -44,8 +47,8 @@ function ChatView() {
     };
 
     setTextMessage("");
-    setUseTurn(!userTurn);
 
+    dispatch({ type: 'user/changeShift'});
     dispatch({ type: 'messages/addMessage', payload: newMessage});
   };
 
