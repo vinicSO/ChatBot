@@ -3,7 +3,7 @@ import { StyleSheet } from "react-native";
 import { Box, HStack, Spacer, View, VStack, Text} from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
-import { ButtonMessage, handleMessageType, TextMessage } from "../components/MessageType";
+import { handleMessageType } from "../components/MessageType";
 
 class Message extends Component {
   constructor(props) {
