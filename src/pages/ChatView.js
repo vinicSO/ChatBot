@@ -19,19 +19,23 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import nextId from "react-id-generator";
 
-import { createMessage } from "../model/Message";
+import { createMessage, Message } from "../model/Message";
 import MessageHistory from "../components/MessageHistory";
+import { handleAction } from "../actions/BotActions";
 
 const windowWidth = Dimensions.get("window").width;
 
 const selectUser = (state) => state.user;
+const selectBot = (state) => state.bot;
 
 function ChatView() {
 
   const [textMessage, setTextMessage] = useState("");
 
   const {turn:userTurn} = useSelector(selectUser, shallowEqual);
+  const bot = useSelector(selectBot, shallowEqual);
 
   const dispatch = useDispatch();
 
@@ -45,6 +49,10 @@ function ChatView() {
     setTextMessage("");
 
     dispatch({ type: 'user/changeShift'});
+
+    if (bot.wait) {
+      bot.actions.filter(e => e.key === bot.targetAction).map(a => handleAction(a, bot));
+    }
   };
 
   return (

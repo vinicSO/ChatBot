@@ -4,17 +4,17 @@ const user = {
 
 export default (state = user, action) => {
 
-    switch (action.type) {
-        case 'user/changeShift': {
-            return {
-                ...user,
-                turn: !user.turn
-            }
-        }
-    
-        default:
-            break;
+  switch (action.type) {
+    case 'user/changeShift': {
+      return {
+        ...user,
+        turn: !user.turn
+      }
     }
 
-    return state;
+    default:
+      break;
+  }
+
+  return state;
 }

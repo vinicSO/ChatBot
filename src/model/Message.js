@@ -4,6 +4,10 @@ import nextId from "react-id-generator";
 import Moment from "moment";
 import store from "../store";
 import { TouchableOpacity } from "react-native";
+import { shallowEqual, useSelector } from "react-redux";
+import { handleAction } from "../actions/BotActions";
+
+const selectBot = (state) => state.bot;
 
 const createMessage = (me, content) => {
   const time = new Date();
@@ -17,6 +21,8 @@ const createMessage = (me, content) => {
 }
 
 function Message(props) {
+
+  const bot = useSelector(selectBot, shallowEqual);
   
   const timeStamp = Moment(props.time).format('HH:mm');
   const content = props.content;
@@ -26,6 +32,7 @@ function Message(props) {
     : { alignSelf: "flex-start", backgroundColor: "#8449d6" };
 
   const handleClick = (action) => {
+    handleAction(action, bot);
   }
 
   return (
