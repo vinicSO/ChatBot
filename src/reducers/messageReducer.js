@@ -2,17 +2,17 @@ const messages = []
 
 export default (state = messages, action) => {
 
-    switch (action.type) {
-        case 'messages/addMessage': {
-            return [
-                ...state,
-                action.payload
-            ];
-        }
-    
-        default:
-            break;
+  switch (action.type) {
+    case 'messages/addMessage': {
+      return [
+        ...state,
+        action.payload
+      ];
     }
 
-    return state;
+    default:
+      break;
+  }
+
+  return state;
 }

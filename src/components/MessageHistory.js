@@ -12,7 +12,7 @@ function MessageHistory() {
 
   messages.sort(function (a, b) {
     return b.message.time - a.message.time;
-  })
+  });
 
   return (
     <View style={styles.listMessages}>

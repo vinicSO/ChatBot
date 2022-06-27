@@ -1,5 +1,3 @@
-import { nextId } from "react-id-generator";
-
 const bot = {
 	wait: true,
 	targetAction: "0",

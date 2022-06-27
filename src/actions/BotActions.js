@@ -34,6 +34,8 @@ function handleAction(action, bot) {
       
       break;
     case "process":
+      
+      store.dispatch({ type: 'user/changeShift', payload: true });
 
       break;
     default:

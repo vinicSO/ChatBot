@@ -1,5 +1,5 @@
 const user = {
-    turn: true
+  turn: true
 }
 
 export default (state = user, action) => {
@@ -8,7 +8,7 @@ export default (state = user, action) => {
     case 'user/changeShift': {
       return {
         ...user,
-        turn: !user.turn
+        turn: action.payload
       }
     }
 

@@ -53,10 +53,9 @@ function ChatView() {
 
     setTextMessage("");
 
-    dispatch({ type: 'user/changeShift'});
+    dispatch({ type: 'user/changeShift', payload: false});
     dispatch({ type: 'messages/addMessage', payload: newMessage});
 
-    // reafactor to MessageHistory :: verificar
     if (bot.wait) {
       bot.actions.filter(e => e.key === bot.targetAction).map(a => handleAction(a, bot));
     }
