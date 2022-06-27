@@ -2,23 +2,11 @@ import { StyleSheet } from "react-native";
 import { Box, HStack, Spacer, VStack, Text } from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
-import store from "../store";
 import { TouchableOpacity } from "react-native";
 import { shallowEqual, useSelector } from "react-redux";
 import { handleAction } from "../actions/BotActions";
 
 const selectBot = (state) => state.bot;
-
-const createMessage = (me, content) => {
-  const time = new Date();
-
-  let newMessage = {
-    key: nextId(),
-    message: <Message me={me} content={content} time={time}/>
-  };
-
-  store.dispatch({ type: 'messages/addMessage', payload: newMessage});
-}
 
 function Message(props) {
 
@@ -109,4 +97,4 @@ const styles = StyleSheet.create({
 	}
 });
 
-export {Message, createMessage};
+export default Message;

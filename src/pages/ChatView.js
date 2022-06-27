@@ -21,7 +21,6 @@ import { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
 import nextId from "react-id-generator";
 
-import { createMessage, Message } from "../model/Message";
 import MessageHistory from "../components/MessageHistory";
 import { handleAction } from "../actions/BotActions";
 
@@ -40,16 +39,24 @@ function ChatView() {
   const dispatch = useDispatch();
 
   handleSendClick = () => {
-    let content = [
-      {type: "text", text: textMessage},
-    ];
 
-    createMessage(true, content);
+    const newMessage = {
+      key: nextId,
+      message: {
+        me: true,
+        time: new Date(),
+        content: [
+          {type: "text", text: textMessage}
+        ]
+      }
+    };
 
     setTextMessage("");
 
     dispatch({ type: 'user/changeShift'});
+    dispatch({ type: 'messages/addMessage', payload: newMessage});
 
+    // reafactor to MessageHistory :: verificar
     if (bot.wait) {
       bot.actions.filter(e => e.key === bot.targetAction).map(a => handleAction(a, bot));
     }

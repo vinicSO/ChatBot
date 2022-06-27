@@ -1,13 +1,14 @@
-import { createMessage } from '../model/Message';
+import store from "../store";
+import nextId from "react-id-generator";
 
 function handleAction(action, bot) {
 
-  let content = [
-  ];
-
   switch (action.type) {
     case "options":
-      let t = action.key.length;
+
+      const t = action.key.length;
+
+      let content = [];
 
       bot.actions.filter(e => e.key.length == t+1 && e.key.slice(0, t) == action.key).map(a => {
         content.unshift({
@@ -17,7 +18,16 @@ function handleAction(action, bot) {
         });
       });
 
-      createMessage(false, content);
+      const newMessage = {
+        key: nextId(),
+        message: {
+          me: false,
+          time: new Date(),
+          content: content
+        }
+      };
+
+      store.dispatch({ type: 'messages/addMessage', payload: newMessage});
 
       break;
     case "request":
@@ -29,13 +39,6 @@ function handleAction(action, bot) {
     default:
       break;
   }
-
-  /*let newMessage = {
-    key: nextId(),
-    message: <Message me={false} content={content}/>
-  };
-
-  store.dispatch({ type: 'messages/addMessage', payload: newMessage});*/
 }
 
 export {handleAction};
