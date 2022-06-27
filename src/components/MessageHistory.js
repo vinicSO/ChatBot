@@ -7,8 +7,12 @@ const selectAllMessages = (state) => state.messages;
 
 function MessageHistory() {
 
-  const messages = useSelector(selectAllMessages, shallowEqual);
+  let messages = useSelector(selectAllMessages, shallowEqual);
 
+  messages.sort(function (a, b) {
+    return b.message.props.time - a.message.props.time;
+  })
+  console.log(messages);
   return (
     <View style={styles.listMessages}>
       <FlatList
