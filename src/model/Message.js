@@ -5,6 +5,17 @@ import Moment from "moment";
 import store from "../store";
 import { TouchableOpacity } from "react-native";
 
+const createMessage = (me, content) => {
+  const time = new Date();
+
+  let newMessage = {
+    key: nextId(),
+    message: <Message me={me} content={content} time={time}/>
+  };
+
+  store.dispatch({ type: 'messages/addMessage', payload: newMessage});
+}
+
 function Message(props) {
   
   const timeStamp = Moment(props.time).format('HH:mm');

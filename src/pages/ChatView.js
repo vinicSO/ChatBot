@@ -19,9 +19,8 @@ import {
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 import { shallowEqual, useDispatch, useSelector } from "react-redux";
-import nextId from "react-id-generator";
 
-import Message from "../model/Message";
+import { createMessage } from "../model/Message";
 import MessageHistory from "../components/MessageHistory";
 
 const windowWidth = Dimensions.get("window").width;
@@ -38,18 +37,14 @@ function ChatView() {
 
   handleSendClick = () => {
     let content = [
-      {type: "text", text: textMessage}
+      {type: "text", text: textMessage},
     ];
 
-    let newMessage = {
-      key: nextId(),
-      message: <Message me={true} content={content}/>
-    };
+    createMessage(true, content);
 
     setTextMessage("");
 
     dispatch({ type: 'user/changeShift'});
-    dispatch({ type: 'messages/addMessage', payload: newMessage});
   };
 
   return (
