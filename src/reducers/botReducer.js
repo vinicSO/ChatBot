@@ -62,6 +62,12 @@ const bot = {
 export default (state = bot, action) => {
 
 	switch (action.type) {
+    case 'bot/setTargetAction':
+      return {
+        ...bot,
+        wait: action.payload.wait,
+        targetAction: action.payload.targetAction
+      }
 	
 		default:
       break;

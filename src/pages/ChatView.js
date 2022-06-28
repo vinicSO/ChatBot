@@ -41,7 +41,7 @@ function ChatView() {
   handleSendClick = () => {
 
     const newMessage = {
-      key: nextId,
+      key: nextId(),
       message: {
         me: true,
         time: new Date(),
@@ -58,6 +58,8 @@ function ChatView() {
 
     if (bot.wait) {
       bot.actions.filter(e => e.key === bot.targetAction).map(a => handleAction(a, bot));
+
+      dispatch({ type: 'bot/setTargetAction', payload: {wait: false, targetAction: ""}});
     }
   };
 
