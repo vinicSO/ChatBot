@@ -23,7 +23,8 @@ function handleAction(action, bot) {
         message: {
           me: false,
           time: new Date(),
-          content: content
+          content: content,
+          enable: "auto"
         }
       };
 

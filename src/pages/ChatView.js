@@ -47,7 +47,8 @@ function ChatView() {
         time: new Date(),
         content: [
           {type: "text", text: textMessage}
-        ]
+        ],
+        enable: "auto"
       }
     };
 

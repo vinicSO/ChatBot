@@ -3,23 +3,29 @@ import { Box, HStack, Spacer, VStack, Text } from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
 import { TouchableOpacity } from "react-native";
-import { shallowEqual, useSelector } from "react-redux";
+import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { handleAction } from "../actions/BotActions";
 
 const selectBot = (state) => state.bot;
 
 function Message(props) {
 
+  const dispatch = useDispatch();
+
   const bot = useSelector(selectBot, shallowEqual);
   
+  const key = props.id;
   const timeStamp = Moment(props.time).format('HH:mm');
   const content = props.content;
   const me = props.me;
+  const enable = props.enable;
   const config = props.me
     ? { alignSelf: "flex-end", backgroundColor: "#4974b8" }
     : { alignSelf: "flex-start", backgroundColor: "#8449d6" };
 
   const handleClick = (action) => {
+    dispatch({ type: 'messages/setEnable', payload: {id: key, enable: "none"}});
+
     handleAction(action, bot);
   }
 
@@ -31,6 +37,7 @@ function Message(props) {
       pr={["0", "5"]}
       py="2"
       style={styles.item}
+      pointerEvents={enable}
     >
       <HStack space={[2, 3]} justifyContent="space-between">
         {me && <Spacer />}

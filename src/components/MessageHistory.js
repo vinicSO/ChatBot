@@ -19,7 +19,7 @@ function MessageHistory() {
       <FlatList
         inverted={true}
         data={messages}
-        renderItem={({ item }) => <Message me={item.message.me} time={item.message.time} content={item.message.content} />}
+        renderItem={({ item }) => <Message id={item.key} me={item.message.me} time={item.message.time} content={item.message.content} enable={item.message.enable} />}
         keyExtractor={(item) => item.key}
       />
     </View>
