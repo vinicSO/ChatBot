@@ -2,7 +2,7 @@ import * as React from 'react';
 import { View, FlatList } from 'native-base';
 import { StyleSheet } from 'react-native';
 import { useSelector, shallowEqual } from 'react-redux';
-import Message from '../model/Message';
+import Message from './Message';
 
 const selectAllMessages = (state) => state.messages;
 

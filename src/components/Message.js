@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Box, HStack, Spacer, VStack, Text, View } from "native-base";
+import { Box, HStack, Spacer, VStack, Text } from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
 import { TouchableOpacity } from "react-native";
