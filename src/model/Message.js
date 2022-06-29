@@ -1,10 +1,11 @@
 import { StyleSheet } from "react-native";
-import { Box, HStack, Spacer, VStack, Text } from "native-base";
+import { Box, HStack, Spacer, VStack, Text, View } from "native-base";
 import nextId from "react-id-generator";
 import Moment from "moment";
 import { TouchableOpacity } from "react-native";
 import { shallowEqual, useSelector, useDispatch } from "react-redux";
 import { handleAction } from "../actions/BotActions";
+import { useState } from "react";
 
 const selectBot = (state) => state.bot;
 
@@ -22,12 +23,6 @@ function Message(props) {
   const config = props.me
     ? { alignSelf: "flex-end", backgroundColor: "#4974b8" }
     : { alignSelf: "flex-start", backgroundColor: "#8449d6" };
-
-  const handleClick = (action) => {
-    dispatch({ type: 'messages/setEnable', payload: {id: key, enable: "none"}});
-
-    handleAction(action, bot);
-  }
 
   return (
     <Box
@@ -50,28 +45,44 @@ function Message(props) {
           >
             {timeStamp}
           </Text>
-          {content.map((message) => 
-            <VStack key={nextId()}>
-              {
-                message.type == "text" &&
-                <Text
-                  color="white"
-                  style={{textAlign: (me) ? "right":"left"}}
-                >
-                  {message.text}
-                </Text>
+          {
+            content.map((message) => {
+
+              const [opacity, setOpacity] = useState();
+
+              const handleClick = (action) => {
+                setOpacity(.5);
+                
+
+                dispatch({ type: 'messages/setEnable', payload: {id: key, enable: "none"}});
+            
+                handleAction(action, bot);
               }
-              {
-                message.type == "button" &&
-                <TouchableOpacity
-                  style={styles.buttonMessage}
-                  onPress={() => handleClick(message.action)}
-                >
-                  <Text style={styles.textButtonMessage}>{message.text}</Text>
-                </TouchableOpacity>
-              }
-            </VStack>
-          )}
+              
+              return(
+                <VStack key={nextId()}>
+                  {
+                    message.type == "text" &&
+                    <Text
+                      color="white"
+                      style={{textAlign: (me) ? "right":"left"}}
+                    >
+                      {message.text}
+                    </Text>
+                  }
+                  {
+                    message.type == "button" &&
+                    <TouchableOpacity
+                      style={{...styles.buttonMessage, opacity: opacity}}
+                      onPress={() => handleClick(message.action)}
+                    >
+                      <Text style={styles.textButtonMessage}>{message.text}</Text>
+                    </TouchableOpacity>
+                  }
+                </VStack>
+              );
+            })
+          }
         </VStack>
       </HStack>
     </Box>
