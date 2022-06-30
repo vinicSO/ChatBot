@@ -65,77 +65,75 @@ function ChatView() {
   };
 
   return (
-    <NativeBaseProvider>
-      <View style={styles.container}>
-        <StatusBar
-          style="light"
-          translucent={false}
-          backgroundColor="#6200ee"
-        />
+    <View style={styles.container}>
+      <StatusBar
+        style="light"
+        translucent={false}
+        backgroundColor="#6200ee"
+      />
 
-        <View style={styles.bar}>
-          <Box safeAreaTop bg="#6200ee" />
-          <HStack
-            bg="#6200ee"
-            px="1"
-            py="2"
-            justifyContent="space-between"
-            alignItems="center"
-            w="100%"
-          >
-            <HStack alignItems="center">
-              <IconButton
-                icon={
-                  <HamburgerIcon
-                    as={MaterialIcons}
-                    name="menu"
-                    size="sm"
-                    color="white"
-                  />
-                }
-              />
-              <Text color="white" fontSize="20" fontWeight="bold">
-                My Chat
-              </Text>
-            </HStack>
-            <HStack>
-              <IconButton
-                icon={
-                  <SearchIcon
-                    as={MaterialIcons}
-                    name="search"
-                    size="sm"
-                    color="white"
-                  />
-                }
-              />
-            </HStack>
-          </HStack>
-        </View>
-
-        <View style={styles.fieldMessage}>
-
-          <MessageHistory />
-
-          <View style={styles.inputMessage}>
-            <TextInput
-              multiline={true}
-              style={styles.textInput}
-              value={textMessage}
-              onChangeText={(text) => {setTextMessage(text)}}
-              editable={userTurn}
+      <View style={styles.bar}>
+        <Box safeAreaTop bg="#6200ee" />
+        <HStack
+          bg="#6200ee"
+          px="1"
+          py="2"
+          justifyContent="space-between"
+          alignItems="center"
+          w="100%"
+        >
+          <HStack alignItems="center">
+            <IconButton
+              icon={
+                <HamburgerIcon
+                  as={MaterialIcons}
+                  name="menu"
+                  size="sm"
+                  color="white"
+                />
+              }
             />
-            <TouchableOpacity
-              style={styles.sendButton}
-              onPress={handleSendClick}
-              disabled={textMessage == ""}
-            >
-              <Feather name="send" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+            <Text color="white" fontSize="20" fontWeight="bold">
+              My Chat
+            </Text>
+          </HStack>
+          <HStack>
+            <IconButton
+              icon={
+                <SearchIcon
+                  as={MaterialIcons}
+                  name="search"
+                  size="sm"
+                  color="white"
+                />
+              }
+            />
+          </HStack>
+        </HStack>
+      </View>
+
+      <View style={styles.fieldMessage}>
+
+        <MessageHistory />
+
+        <View style={styles.inputMessage}>
+          <TextInput
+            multiline={true}
+            style={styles.textInput}
+            value={textMessage}
+            onChangeText={(text) => {setTextMessage(text)}}
+            editable={userTurn}
+          />
+          <TouchableOpacity
+            style={styles.sendButton}
+            onPress={handleSendClick}
+            disabled={textMessage == ""}
+          >
+            <Feather name="send" size={24} color="black" />
+          </TouchableOpacity>
         </View>
       </View>
-    </NativeBaseProvider>
+    </View>
   );
 }
 
