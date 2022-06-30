@@ -1,13 +1,16 @@
 import { Box, Button, Center, FormControl, HStack, Input, Link, Text, View, VStack } from 'native-base';
 import * as React from 'react';
+import { signInAction } from '../actions/AuthActions';
 
 function LoginView({navigation}) {
   
   const [login, setLogin] = React.useState("");
   const [password, setPassword] = React.useState("");
 
-  const handleLoginButton = () => {
-    navigation.navigate("Chat");
+  const handleLoginButton = async () => {
+    const signIn = await signInAction(login, password);
+
+    if (signIn) navigation.navigate("Chat");
   }
 
   return(
